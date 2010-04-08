@@ -245,15 +245,10 @@ class PokerHand
     ['Highest Card',    :highest_card? ],
   ]
 
-  # Returns the verbose hand rating
-  #
-  #     PokerHand.new("4s 5h 6c 7d 8s").hand_rating     # => "Straight"
   def hand_rating
-    OPS.map { |op|
-      (method(op[1]).call()) ? op[0] : false
-    }.find { |v| v }
+      @evaluator.hand_rating
   end
-  
+
   alias :rank :hand_rating
   
   def score

@@ -2,19 +2,6 @@ class NaiveHandEvaluator
     def initialize(hand)
         @hand = hand
     end
-    
-    def score
-      # OPS.map returns an array containing the result of calling each OPS method again
-      # the poker hand. The non-nil cell closest to the front of the array represents
-      # the highest ranking.
-      # find([0]) returns [0] instead of nil if the hand does not match any of the rankings
-      # which is not likely to occur since every hand should at least have a highest card
-      OPS.map { |op|
-        method(op[1]).call()
-      }.find([0]) { |score| score }
-    end
-
-private
 
     OPS = [
       ['Royal Flush',     :royal_flush? ],
@@ -28,6 +15,28 @@ private
       ['Pair',            :pair? ],
       ['Highest Card',    :highest_card? ],
     ]
+    
+    def score
+      # OPS.map returns an array containing the result of calling each OPS method again
+      # the poker hand. The non-nil cell closest to the front of the array represents
+      # the highest ranking.
+      # find([0]) returns [0] instead of nil if the hand does not match any of the rankings
+      # which is not likely to occur since every hand should at least have a highest card
+      OPS.map { |op|
+        method(op[1]).call()
+      }.find([0]) { |score| score }
+    end
+    
+    # Returns the verbose hand rating
+    #
+    #     PokerHand.new("4s 5h 6c 7d 8s").hand_rating     # => "Straight"
+    def hand_rating
+      OPS.map { |op|
+        (method(op[1]).call()) ? op[0] : false
+      }.find { |v| v }
+    end
+
+private
     
   def royal_flush?
     if (md = (@hand.by_suit =~ /A(.) K\1 Q\1 J\1 T\1/))
