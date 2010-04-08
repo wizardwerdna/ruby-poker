@@ -1,15 +1,18 @@
 = Poker library in Ruby
 ===
 
-Author:: {Rob Olson}[http://thinkingdigitally.com]
-Email:: [first name] [at] thinkingdigitally.com
-GitHub:: http://github.com/robolson/ruby-poker
+Author:: {Andrew C. Greenberg}[http://lawhacker.com]
+Email:: [andrewcgreenberg] [at] gmail.com
+GitHub:: http://github.com/wizarderdna/ruby-poker
+Forked from {Rob Olson's}[http://thinkingdigitally.com] excellent first cut at a ruby-native evaluator.
 
 == Description
 
 Ruby-Poker handles the logic for getting the rank of a poker hand. It can also be used to compare two or more hands to determine which hand has the highest poker value.
 
 Card representations can be passed to the PokerHand constructor as a string or an array. Face cards (cards ten, jack, queen, king, and ace) are created using their letter representation (T, J, Q, K, A).
+
+Plural evaluators may be installed and tested for comparative accuracy and efficiency.
 
 == Install
 
@@ -44,6 +47,11 @@ Ruby-Poker is compatible with Ruby 1.8.6 and Ruby 1.9.1.
 == History
 
 In the 0.2.0 release Patrick Hurley's Texas Holdem code from http://www.rubyquiz.com/quiz24.html was merged into ruby-poker.
+
+TODO Create evaluator object and move current code there
+TODO Create performance testing harness
+TODO Create evaluator objects for Cactus-Kev 5 and 7-hand evaluators
+TODO Create evaluator objects for Two-plus-two-style lookup evaluators
 
 == License
 
