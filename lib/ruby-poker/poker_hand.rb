@@ -73,178 +73,6 @@ class PokerHand
     re.match(just_cards)
   end
 
-  def royal_flush?
-    if (md = (by_suit =~ /A(.) K\1 Q\1 J\1 T\1/))
-      [[10], arrange_hand(md)]
-    else
-      false
-    end
-  end
-
-  def straight_flush?
-    if (md = (/.(.)(.)(?: 1.\2){4}/.match(delta_transform(true))))
-      high_card = Card::face_value(md[1])
-      arranged_hand = fix_low_ace_display(md[0] + ' ' +
-          md.pre_match + ' ' + md.post_match)
-      [[9, high_card], arranged_hand]
-    else
-      false
-    end
-  end
-
-  def four_of_a_kind?
-    if (md = (by_face =~ /(.). \1. \1. \1./))
-      # get kicker
-      (md.pre_match + md.post_match).match(/(\S)/)
-      [
-        [8, Card::face_value(md[1]), Card::face_value($1)],
-        arrange_hand(md)
-      ]
-    else
-      false
-    end
-  end
-
-  def full_house?
-    if (md = (by_face =~ /(.). \1. \1. (.*)(.). \3./))
-      arranged_hand = arrange_hand(md[0] + ' ' +
-          md.pre_match + ' ' + md[2] + ' ' + md.post_match)
-      [
-        [7, Card::face_value(md[1]), Card::face_value(md[3])],
-        arranged_hand
-      ]
-    elsif (md = (by_face =~ /((.). \2.) (.*)((.). \5. \5.)/))
-      arranged_hand = arrange_hand(md[4] + ' '  + md[1] + ' ' +
-          md.pre_match + ' ' + md[3] + ' ' + md.post_match)
-      [
-        [7, Card::face_value(md[5]), Card::face_value(md[2])],
-        arranged_hand
-      ]
-    else
-      false
-    end
-  end
-
-  def flush?
-    if (md = (by_suit =~ /(.)(.) (.)\2 (.)\2 (.)\2 (.)\2/))
-      [
-        [
-          6,
-          Card::face_value(md[1]),
-          *(md[3..6].map { |f| Card::face_value(f) })
-        ],
-        arrange_hand(md)
-      ]
-    else
-      false
-    end
-  end
-
-  def straight?
-    result = false
-    if hand.size >= 5
-      transform = delta_transform
-      # note we can have more than one delta 0 that we
-      # need to shuffle to the back of the hand
-      i = 0
-      until transform.match(/^\S{3}( [1-9x]\S\S)+( 0\S\S)*$/) or i >= hand.size  do
-        # only do this once per card in the hand to avoid entering an
-        # infinite loop if all of the cards in the hand are the same
-        transform.gsub!(/(\s0\S\S)(.*)/, "\\2\\1")    # moves the front card to the back of the string
-        i += 1
-      end
-      if (md = (/.(.). 1.. 1.. 1.. 1../.match(transform)))
-        high_card = Card::face_value(md[1])
-        arranged_hand = fix_low_ace_display(md[0] + ' ' + md.pre_match + ' ' + md.post_match)
-        result = [[5, high_card], arranged_hand]
-      end
-    end
-  end
-
-  def three_of_a_kind?
-    if (md = (by_face =~ /(.). \1. \1./))
-      # get kicker
-      arranged_hand = arrange_hand(md)
-      arranged_hand.match(/(?:\S\S ){3}(\S)\S (\S)/)
-      [
-        [
-          4,
-          Card::face_value(md[1]),
-          Card::face_value($1),
-          Card::face_value($2)
-        ],
-        arranged_hand
-      ]
-    else
-      false
-    end
-  end
-
-  def two_pair?
-    # \1 is the face value of the first pair
-    # \2 is the card in between the first pair and the second pair
-    # \3 is the face value of the second pair
-    if (md = (by_face =~ /(.). \1.(.*?) (.). \3./))
-      # to get the kicker this does the following
-      # md[0] is the regex matched above which includes the first pair and
-      # the second pair but also some cards in the middle so we sub them out
-      # then we add on the cards that came before the first pair, the cards
-      # that were in-between, and the cards that came after.
-      arranged_hand = arrange_hand(md[0].sub(md[2], '') + ' ' +
-          md.pre_match + ' ' + md[2] + ' ' + md.post_match)
-      arranged_hand.match(/(?:\S\S ){4}(\S)/)
-      [
-        [
-          3,
-          Card::face_value(md[1]),    # face value of the first pair
-          Card::face_value(md[3]),    # face value of the second pair
-          Card::face_value($1)        # face value of the kicker
-        ],
-        arranged_hand
-      ]
-    else
-      false
-    end
-  end
-
-  def pair?
-    if (md = (by_face =~ /(.). \1./))
-      # get kicker
-      arranged_hand = arrange_hand(md)
-      arranged_hand.match(/(?:\S\S ){2}(\S)\S\s+(\S)\S\s+(\S)/)
-      [
-        [
-          2,
-          Card::face_value(md[1]),
-          Card::face_value($1),
-          Card::face_value($2),
-          Card::face_value($3)
-        ],
-        arranged_hand
-      ]
-    else
-      false
-    end
-  end
-
-  def highest_card?
-    result = by_face
-    [[1, *result.face_values[0..4]], result.hand.join(' ')]
-  end
-
-  OPS = [
-    ['Royal Flush',     :royal_flush? ],
-    ['Straight Flush',  :straight_flush? ],
-    ['Four of a kind',  :four_of_a_kind? ],
-    ['Full house',      :full_house? ],
-    ['Flush',           :flush? ],
-    ['Straight',        :straight? ],
-    ['Three of a kind', :three_of_a_kind?],
-    ['Two pair',        :two_pair? ],
-    ['Pair',            :pair? ],
-    ['Highest Card',    :highest_card? ],
-  ]
-
   def hand_rating
       @evaluator.hand_rating
   end
@@ -253,6 +81,46 @@ class PokerHand
   
   def score
       @evaluator.score
+  end
+  
+  def royal_flush?
+      @evaluator.royal_flush?
+  end
+
+  def straight_flush?
+      @evaluator.straight_flush?
+  end
+
+  def four_of_a_kind?
+      @evaluator.four_of_a_kind?
+  end
+
+  def full_house?
+      @evaluator.full_house?
+  end
+  
+  def flush?
+      @evaluator.flush?
+  end
+
+  def straight?
+      @evaluator.straight?
+  end
+
+  def three_of_a_kind?
+      @evaluator.three_of_a_kind?
+  end
+
+  def two_pair?
+      @evaluator.two_pair?
+  end
+
+  def pair?
+      @evaluator.pair?
+  end
+
+  def highest_card?
+      @evaluator.highest_card?
   end
 
   # Returns a string of the hand arranged based on its rank. Usually this will be the

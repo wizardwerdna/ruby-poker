@@ -36,8 +36,6 @@ class NaiveHandEvaluator
       }.find { |v| v }
     end
 
-private
-    
   def royal_flush?
     if (md = (@hand.by_suit =~ /A(.) K\1 Q\1 J\1 T\1/))
       [[10], arrange_hand(md)]
