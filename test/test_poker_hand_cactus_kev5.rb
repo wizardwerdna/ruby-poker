@@ -7,7 +7,7 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     setup do
       @trips = PokerHand.new("2D 9C AS AH AC", CactusKevEvaluator)
       @full_boat = PokerHand.new(["2H", "2D", "4C", "4D", "4S"], CactusKevEvaluator)
-      @flush = PokerHand.new("3D 6D 7D TD QD", CactusKevEvaluator)
+      @flush = PokerHand.new("3D 6D 7D TD QD AS AH`", CactusKevEvaluator)
       @straight = PokerHand.new("8H 9D TS JH QC ", CactusKevEvaluator)
     end
   

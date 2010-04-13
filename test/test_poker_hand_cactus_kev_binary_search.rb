@@ -7,7 +7,7 @@ class TestPokerHandCactusKevBinarySearch5 < Test::Unit::TestCase
     setup do
       @trips = PokerHand.new("2D 9C AS AH AC", CactusKevBinarySearchEvaluator)
       @full_boat = PokerHand.new(["2H", "2D", "4C", "4D", "4S"], CactusKevBinarySearchEvaluator)
-      @flush = PokerHand.new("3D 6D 7D TD QD", CactusKevBinarySearchEvaluator)
+      @flush = PokerHand.new("3D 6D 7D TD QD AS AH", CactusKevBinarySearchEvaluator)
       @straight = PokerHand.new("8H 9D TS JH QC ", CactusKevBinarySearchEvaluator)
     end
   

@@ -9,12 +9,23 @@ class CactusKevBinarySearchEvaluator < CactusKev::CactusKevValueEvaluator
     include CactusKev
     
     def score
-        EqClTable[eval_5cards(*@hand.to_a.map{|each| each.cactus_kev_card_value})]
+        cactus_kev_hand_eval(@hand.to_a.map{|each| each.cactus_kev_card_value})
     end
     
 private
+
+    # pass card array to approrpiate evaluator based on hand size
+    def cactus_kev_hand_eval(cards)
+        integer_result = case cards.size
+        when 5: eval_5_cards(*cards)
+        when 7: eval_7_card_hand(cards)
+        else raise "This evaluator can only handle 5-card hands"
+        end
+        EqClTable[integer_result]
+    end
+
     
-    def eval_5cards( c1, c2, c3, c4, c5 )
+    def eval_5_cards( c1, c2, c3, c4, c5 )
         q = (c1|c2|c3|c4|c5) >> 16;
         case
         when (c1 & c2 & c3 & c4 & c5 & 0xF000)>0
@@ -28,18 +39,16 @@ private
         end
     end
 
-    def eval_7hand( hand )
+    # evaluate each permutation using eval_5cards_fast, returning the best result as an integer
+    # evaluate each permutation using eval_5cards_fast, returning the best result as an integer
+    def eval_7_card_hand( cards )
         best = 9999
-        subhand = Array.new(5, nil)
-    
-        for i in 0..20
-            for j in 0..4
-    			subhand[j] = hand[ Perm7[i][j] ];
-    		end
-    		q = eval_5hand_fast( subhand );
-    		if ( q < best )
-    			best = q;
-    		end
+        Perm7.each do |perm|
+            q = eval_5_cards(
+                cards[perm[0]], cards[perm[1]], cards[perm[2]], cards[perm[3]], cards[perm[4]])
+            if q<best
+                best = q
+            end
         end
         best
     end
