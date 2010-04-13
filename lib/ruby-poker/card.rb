@@ -23,6 +23,7 @@ class Card
     'K' => 13,
     'A' => 14
   }
+  Primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
 
   def Card.face_value(face)
     face.upcase!
@@ -66,6 +67,7 @@ class Card
   public
 
   def initialize(*value)
+    @memoized_cactus_kev_card_value = nil
     if (value.size == 1)
       if (value[0].respond_to?(:to_card))
         build_from_card(value[0])
@@ -136,4 +138,34 @@ class Card
                                               # increment everything else by 1
     natural_face + @suit * 13
   end
+   
+=begin rdoc
+  The Cactus-Kev card value.  that is, the four byte integer:
+
+  +--------+--------+--------+--------+
+  |xxxbbbbb|bbbbbbbb|shdcrrrr|xxpppppp|
+  +--------+--------+--------+--------+
+
+  where
+
+      p = prime number corresponding to the rank (deuce=2, trey=3, four=5, ..., ace=41)
+      r = rank of card (deuce=0, trey=1, four=2, five=3, ..., ace=12)
+      cdhs = bit corresponding to suit set, all others reset
+      b = rth bit set, all others reset
+
+  Because it is somewhat compute-intensive to compute this value, it is memoized after
+  the first computation.  This means that all cards used with cactus-kev evaluators must
+  be immutable.
+  
+  Note: the suit order for this encoding is reversed from the C-K code
+=end
+    public
+    def cactus_kev_card_value
+        @memoized_cactus_kev_card_value ||= computed_cactus_kev_card_value
+    end
+     
+    private
+    def computed_cactus_kev_card_value
+        Primes[@face-1] | ((@face-1) << 8) | (1 << (@suit+12)) | (1 << (16+@face-1))
+    end
 end

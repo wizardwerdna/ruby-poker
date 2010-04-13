@@ -66,4 +66,13 @@ class TestCard < Test::Unit::TestCase
   def test_hash
     assert_equal(15, @c1.hash)
   end
+  
+  def test_cactus_kev_value
+     assert_equal(Card.new('2c').cactus_kev_card_value, 0b00000000000000010001000000000010)
+     assert_equal(Card.new('3c').cactus_kev_card_value, 0b00000000000000100001000100000011)
+     assert_equal(Card.new('Ac').cactus_kev_card_value, 0b00010000000000000001110000101001)
+     assert_equal(Card.new('2s').cactus_kev_card_value, 0b00000000000000011000000000000010)
+     assert_equal(Card.new('3s').cactus_kev_card_value, 0b00000000000000101000000100000011)
+     assert_equal(Card.new('As').cactus_kev_card_value, 0b00010000000000001000110000101001)
+   end
 end
