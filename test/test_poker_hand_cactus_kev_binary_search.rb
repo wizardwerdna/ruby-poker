@@ -1,14 +1,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/test_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../lib/ruby-poker/cactus_kev_evaluator.rb')
+require File.expand_path(File.dirname(__FILE__) + '/../lib/ruby-poker/cactus_kev_binary_search_evaluator.rb')
 
-class TestPokerHandCactusKev5 < Test::Unit::TestCase
+class TestPokerHandCactusKevBinarySearch5 < Test::Unit::TestCase
   context "A PokerHand instance" do
   
     setup do
-      @trips = PokerHand.new("2D 9C AS AH AC", CactusKevEvaluator)
-      @full_boat = PokerHand.new(["2H", "2D", "4C", "4D", "4S"], CactusKevEvaluator)
-      @flush = PokerHand.new("3D 6D 7D TD QD", CactusKevEvaluator)
-      @straight = PokerHand.new("8H 9D TS JH QC ", CactusKevEvaluator)
+      @trips = PokerHand.new("2D 9C AS AH AC", CactusKevBinarySearchEvaluator)
+      @full_boat = PokerHand.new(["2H", "2D", "4C", "4D", "4S"], CactusKevBinarySearchEvaluator)
+      @flush = PokerHand.new("3D 6D 7D TD QD", CactusKevBinarySearchEvaluator)
+      @straight = PokerHand.new("8H 9D TS JH QC ", CactusKevBinarySearchEvaluator)
     end
   
     # # there are a lot of combinations that should be tested here. I will add more
@@ -19,8 +19,8 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     #   # assert_equal("Qd Td 7d 6d 3d 2s 5h", @flush.sort_using_rank)
     #   # assert_equal("Qc Jh Ts 9d 8h As", @straight.sort_using_rank)
     # 
-    #   assert_equal("As Ah 3d 3c Kd", PokerHand.new("AS AH KD 3D 3C", CactusKevEvaluator).sort_using_rank)
-    #   assert_equal("As Ah 3d 3c 2d", PokerHand.new("2D AS AH 3D 3C", CactusKevEvaluator).sort_using_rank)
+    #   assert_equal("As Ah 3d 3c Kd", PokerHand.new("AS AH KD 3D 3C", CactusKevBinarySearchEvaluator).sort_using_rank)
+    #   assert_equal("As Ah 3d 3c 2d", PokerHand.new("2D AS AH 3D 3C", CactusKevBinarySearchEvaluator).sort_using_rank)
     # end
 
     should "return card sorted by face value" do
@@ -38,12 +38,12 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     should "recognize a straight flush" do
       assert !@flush.straight_flush?
       assert !@straight.straight_flush?
-      assert PokerHand.new("8H 9H TH JH QH", CactusKevEvaluator).straight_flush?
+      assert PokerHand.new("8H 9H TH JH QH", CactusKevBinarySearchEvaluator).straight_flush?
     end
   
     should "recognize a royal flush" do
       assert !@flush.royal_flush?
-      assert PokerHand.new("AD KD QD JD TD", CactusKevEvaluator).royal_flush?
+      assert PokerHand.new("AD KD QD JD TD", CactusKevBinarySearchEvaluator).royal_flush?
     end
 
     should "recognize a flush" do
@@ -53,7 +53,7 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
 
     should "recognize a four of a kind" do
       assert !@trips.four_of_a_kind?
-      assert PokerHand.new("AD 9C AS AH AC", CactusKevEvaluator)
+      assert PokerHand.new("AD 9C AS AH AC", CactusKevBinarySearchEvaluator)
     end
 
     should "recognize a full house" do
@@ -63,7 +63,7 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     
     should "recognize a straight" do
       assert @straight.straight?
-      assert PokerHand.new("AH 2S 3D 4H 5D", CactusKevEvaluator).straight?
+      assert PokerHand.new("AH 2S 3D 4H 5D", CactusKevBinarySearchEvaluator).straight?
     end
 
     should "recognize a three of a kind" do
@@ -71,18 +71,18 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     end
 
     should "recognize a two pair" do
-      assert PokerHand.new("2S 2D TH TD 4S", CactusKevEvaluator).two_pair?
-      assert !PokerHand.new("6D 7C 5D 5H 3S", CactusKevEvaluator).two_pair?
+      assert PokerHand.new("2S 2D TH TD 4S", CactusKevBinarySearchEvaluator).two_pair?
+      assert !PokerHand.new("6D 7C 5D 5H 3S", CactusKevBinarySearchEvaluator).two_pair?
     end
     
     should "recognize a pair" do
-      assert !PokerHand.new("5C JC 2H 7S 3D", CactusKevEvaluator).pair?
-      assert PokerHand.new("6D 7C 5D 5H 3S", CactusKevEvaluator).pair?
+      assert !PokerHand.new("5C JC 2H 7S 3D", CactusKevBinarySearchEvaluator).pair?
+      assert PokerHand.new("6D 7C 5D 5H 3S", CactusKevBinarySearchEvaluator).pair?
     end
     
     should "recognize a hand with the rank highest_card" do
       # hard to test, make sure it does not return null
-      assert PokerHand.new("2D 4S 6C 8C TH", CactusKevEvaluator).highest_card?
+      assert PokerHand.new("2D 4S 6C 8C TH", CactusKevBinarySearchEvaluator).highest_card?
     end
 
     should "have an instance variable hand that is an array of Cards" do
@@ -114,13 +114,13 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
   
     should "return the correct number of cards in the hand" do
       assert_equal(0, PokerHand.new.size)
-      assert_equal(1, PokerHand.new("2c", CactusKevEvaluator).size)
-      assert_equal(2, PokerHand.new("2c 3d", CactusKevEvaluator).size)
+      assert_equal(1, PokerHand.new("2c", CactusKevBinarySearchEvaluator).size)
+      assert_equal(2, PokerHand.new("2c 3d", CactusKevBinarySearchEvaluator).size)
     end
   
     should "be comparable to other PokerHands" do
-      hand1 = PokerHand.new("5C JC 2H 5S 3D", CactusKevEvaluator)
-      hand2 = PokerHand.new("6D 7C 5D 5H 3S", CactusKevEvaluator)
+      hand1 = PokerHand.new("5C JC 2H 5S 3D", CactusKevBinarySearchEvaluator)
+      hand2 = PokerHand.new("6D 7C 5D 5H 3S", CactusKevBinarySearchEvaluator)
       assert_equal(1, hand1 <=> hand2)
       assert_equal(-1, hand2 <=> hand1)
     end
@@ -128,13 +128,13 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     should "be considered equal to other poker hands that contain the same cards" do
       assert_equal(0, @trips <=> @trips)
     
-      hand1 = PokerHand.new("Ac Qc Ks Kd 9d", CactusKevEvaluator)
-      hand2 = PokerHand.new("Ah Qs 9h Kh Kc", CactusKevEvaluator)
+      hand1 = PokerHand.new("Ac Qc Ks Kd 9d", CactusKevBinarySearchEvaluator)
+      hand2 = PokerHand.new("Ah Qs 9h Kh Kc", CactusKevBinarySearchEvaluator)
       assert_equal(0, hand1 <=> hand2)
     end
   
     should "be able to add a Card to itself" do
-      ph = PokerHand.new("", CactusKevEvaluator)
+      ph = PokerHand.new("", CactusKevBinarySearchEvaluator)
       ph << "Qd"
       ph << Card.new("2D")
       ph << ["3d", "4d"]
@@ -142,13 +142,13 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     end
   
     should "be able to delete a card" do
-      ph = PokerHand.new("Ac", CactusKevEvaluator)
+      ph = PokerHand.new("Ac", CactusKevBinarySearchEvaluator)
       ph.delete("Ac")
       assert_equal(Array.new, ph.hand)
     end
     
     # should "detect the two highest pairs when there are more than two" do
-    #   ph = PokerHand.new("7d 7s 4d 4c 2h 2d", CactusKevEvaluator)
+    #   ph = PokerHand.new("7d 7s 4d 4c 2h 2d", CactusKevBinarySearchEvaluator)
     #   assert_equal([3, 6, 3, 1], ph.two_pair?[0])
     #   # Explanation of [3, 6, 3, 1]
     #   # 3: the number for a two pair
@@ -163,7 +163,7 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     #   end
     # 
     #   should "create a PokerHand of unique cards" do
-    #     uniq_ph = PokerHand.new("3s 4s 3s", CactusKevEvaluator).uniq
+    #     uniq_ph = PokerHand.new("3s 4s 3s", CactusKevBinarySearchEvaluator).uniq
     #     assert_instance_of(PokerHand, uniq_ph)  # want to be sure uniq hands back a PokerHand
     #     assert_contains(uniq_ph.hand, Card.new('3s'))
     #     assert_contains(uniq_ph.hand, Card.new('4s'))
@@ -172,18 +172,18 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     #   should "allow five of a kind" do
     #     # there is no five of a kind. This just tests to make sure
     #     # that ruby-poker doesn't crash if given 5 of the same card
-    #     ph = PokerHand.new("KS KS KS KS KS", CactusKevEvaluator)
+    #     ph = PokerHand.new("KS KS KS KS KS", CactusKevBinarySearchEvaluator)
     #     assert_equal("Four of a kind", ph.rank)
     #   end
     #   
     #   should "allow duplicates on initialize" do
     #     assert_nothing_raised RuntimeError do
-    #       PokerHand.new("3s 3s", CactusKevEvaluator)
+    #       PokerHand.new("3s 3s", CactusKevBinarySearchEvaluator)
     #     end
     #   end
     # 
     #   should "allow duplicate card to be added after initialize" do
-    #     ph = PokerHand.new("2d", CactusKevEvaluator)
+    #     ph = PokerHand.new("2d", CactusKevBinarySearchEvaluator)
     #     ph << "2d"
     #     assert_equal("2d 2d", ph.just_cards)
     #   end
@@ -198,7 +198,7 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
         PokerHand.allow_duplicates = false
     
         assert_raise RuntimeError do
-          PokerHand.new("3s 3s", CactusKevEvaluator)
+          PokerHand.new("3s 3s", CactusKevBinarySearchEvaluator)
         end
     
         PokerHand.allow_duplicates = true
@@ -207,7 +207,7 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
       should "not allow duplicates after initialize" do
         PokerHand.allow_duplicates = false
     
-        ph = PokerHand.new("2d", CactusKevEvaluator)    
+        ph = PokerHand.new("2d", CactusKevBinarySearchEvaluator)    
         assert_raise RuntimeError do
           ph << "2d"
         end
@@ -218,4 +218,3 @@ class TestPokerHandCactusKev5 < Test::Unit::TestCase
     
   end
 end
-
