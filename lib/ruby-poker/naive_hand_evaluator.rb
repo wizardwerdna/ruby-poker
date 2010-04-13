@@ -1,4 +1,7 @@
+require File.expand_path('../naive_value', __FILE__)
+
 class NaiveHandEvaluator
+    include Naive
     
     def initialize(hand)
         @hand = hand
@@ -39,7 +42,7 @@ class NaiveHandEvaluator
 
 	def royal_flush?
         if (md = (@hand.by_suit =~ /A(.) K\1 Q\1 J\1 T\1/))
-          [[10], arrange_hand(md)]
+          NaiveScore.new [[10], arrange_hand(md)]
         else
           false
         end
@@ -50,7 +53,7 @@ class NaiveHandEvaluator
           high_card = Card::face_value(md[1])
           arranged_hand = fix_low_ace_display(md[0] + ' ' +
               md.pre_match + ' ' + md.post_match)
-          [[9, high_card], arranged_hand]
+          NaiveScore.new [[9, high_card], arranged_hand]
         else
           false
         end
@@ -60,7 +63,7 @@ class NaiveHandEvaluator
         if (md = (@hand.by_face =~ /(.). \1. \1. \1./))
           # get kicker
           (md.pre_match + md.post_match).match(/(\S)/)
-          [
+          NaiveScore.new [
             [8, Card::face_value(md[1]), Card::face_value($1)],
             arrange_hand(md)
           ]
@@ -73,14 +76,14 @@ class NaiveHandEvaluator
         if (md = (@hand.by_face =~ /(.). \1. \1. (.*)(.). \3./))
           arranged_hand = arrange_hand(md[0] + ' ' +
               md.pre_match + ' ' + md[2] + ' ' + md.post_match)
-          [
+          NaiveScore.new [
             [7, Card::face_value(md[1]), Card::face_value(md[3])],
             arranged_hand
           ]
         elsif (md = (@hand.by_face =~ /((.). \2.) (.*)((.). \5. \5.)/))
           arranged_hand = arrange_hand(md[4] + ' '  + md[1] + ' ' +
               md.pre_match + ' ' + md[3] + ' ' + md.post_match)
-          [
+          NaiveScore.new [
             [7, Card::face_value(md[5]), Card::face_value(md[2])],
             arranged_hand
           ]
@@ -91,7 +94,7 @@ class NaiveHandEvaluator
 
 	def flush?
         if (md = (@hand.by_suit =~ /(.)(.) (.)\2 (.)\2 (.)\2 (.)\2/))
-          [
+          NaiveScore.new [
             [
               6,
               Card::face_value(md[1]),
@@ -120,9 +123,10 @@ class NaiveHandEvaluator
           if (md = (/.(.). 1.. 1.. 1.. 1../.match(transform)))
             high_card = Card::face_value(md[1])
             arranged_hand = fix_low_ace_display(md[0] + ' ' + md.pre_match + ' ' + md.post_match)
-            result = [[5, high_card], arranged_hand]
+            result = NaiveScore.new [[5, high_card], arranged_hand]
           end
         end
+        result
 	end
 
 	def three_of_a_kind?
@@ -130,7 +134,7 @@ class NaiveHandEvaluator
           # get kicker
           arranged_hand = arrange_hand(md)
           arranged_hand.match(/(?:\S\S ){3}(\S)\S (\S)/)
-          [
+          NaiveScore.new [
             [
               4,
               Card::face_value(md[1]),
@@ -157,7 +161,7 @@ class NaiveHandEvaluator
           arranged_hand = arrange_hand(md[0].sub(md[2], '') + ' ' +
               md.pre_match + ' ' + md[2] + ' ' + md.post_match)
           arranged_hand.match(/(?:\S\S ){4}(\S)/)
-          [
+          NaiveScore.new [
             [
               3,
               Card::face_value(md[1]),    # face value of the first pair
@@ -176,7 +180,7 @@ class NaiveHandEvaluator
           # get kicker
           arranged_hand = arrange_hand(md)
           arranged_hand.match(/(?:\S\S ){2}(\S)\S\s+(\S)\S\s+(\S)/)
-          [
+          NaiveScore.new [
             [
               2,
               Card::face_value(md[1]),
@@ -193,7 +197,7 @@ class NaiveHandEvaluator
 
 	def highest_card?
         result = @hand.by_face
-        [[1, *result.face_values[0..4]], result.hand.join(' ')]
+        NaiveScore.new [[1, *result.face_values[0..4]], result.hand.join(' ')]
 	end
 
 	private

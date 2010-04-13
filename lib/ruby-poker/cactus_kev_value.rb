@@ -14,12 +14,6 @@ module CactusKev
         def <=> other
             -(self.code <=> other.code)
         end
-        def compact
-            self
-        end
-        def [] ignored_value
-            self
-        end
     end
 
 =begin rdoc

@@ -130,7 +130,7 @@ class PokerHand
   #     ph.sort_using_rank        # => "5s 4s 3s 2s As"
   #     ph.by_face.just_cards       # => "As 5s 4s 3s 2s"   
   def sort_using_rank
-    score[1]
+    score.arranged_hand
   end
   
   # Returns string with a listing of the cards in the hand followed by the hand's rank.
@@ -149,7 +149,7 @@ class PokerHand
   alias :to_ary :to_a
   
   def <=> other_hand
-    self.score[0].compact <=> other_hand.score[0].compact
+    self.score <=> other_hand.score
   end
   
   # Add a card to the hand

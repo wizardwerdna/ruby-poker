@@ -103,7 +103,7 @@ class TestPokerHand < Test::Unit::TestCase
     end
 
     should "return the hand's score" do
-      assert_equal([4, 13, 8, 1], @trips.score[0])
+      assert_equal([4, 13, 8, 1], @trips.score.cons)
     end
 
     should "be able to match regular expressions" do
@@ -148,7 +148,7 @@ class TestPokerHand < Test::Unit::TestCase
     
     should "detect the two highest pairs when there are more than two" do
       ph = PokerHand.new("7d 7s 4d 4c 2h 2d")
-      assert_equal([3, 6, 3, 1], ph.two_pair?[0])
+      assert_equal([3, 6, 3, 1], ph.two_pair?.cons)
       # Explanation of [3, 6, 3, 1]
       # 3: the number for a two pair
       # 6: highest pair is two 7's
