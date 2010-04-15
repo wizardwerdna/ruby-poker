@@ -23,6 +23,7 @@ class Card
     'K' => 13,
     'A' => 14
   }
+  
   Primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
 
   def Card.face_value(face)
@@ -36,10 +37,18 @@ class Card
 
   private
   
+  "index of cards including the 'L' card"
   def build_from_value(value)
     @value = value
     @suit  = value / FACES.size()
     @face  = (value % FACES.size())
+  end
+  
+  "index of cards, not including the 'L' cards"
+  def build_from_index(index)
+      @suit = value / 13
+      @face = index % 13
+      @value = (@suit * FACES.size()) + (@face - 1)      
   end
 
   def build_from_face_suit(face, suit)

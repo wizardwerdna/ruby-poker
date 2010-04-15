@@ -1,6 +1,6 @@
 require File.expand_path('../naive_value', __FILE__)
 
-class NaiveHandEvaluator
+class NaiveTareEvaluator
     include Naive
     
     def initialize(hand)
@@ -26,18 +26,14 @@ class NaiveHandEvaluator
         # the highest ranking.
         # find([0]) returns [0] instead of nil if the hand does not match any of the rankings
         # which is not likely to occur since every hand should at least have a highest card
-        OPS.map { |op|
-            method(op[1]).call()
-        }.find([0]) { |score| score }
+        NaiveScore.new [[1, 2], 3]
     end
     
     # Returns the verbose hand rating
     #
     #     PokerHand.new("4s 5h 6c 7d 8s").hand_rating     # => "Straight"
     def hand_rating
-        OPS.map { |op|
-            (method(op[1]).call()) ? op[0] : false
-        }.find { |v| v }
+        "Royal Flush"
     end
 
 	def royal_flush?

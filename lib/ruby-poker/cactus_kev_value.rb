@@ -1,4 +1,10 @@
+require File.expand_path('../card', __FILE__)
 module CactusKev
+
+=begin rdoc
+=end
+    class EqClNode < Struct.new(:eq_flush, :eq_nonflush); end
+    EqClNodeHash = {}
 
 =begin rdoc
     Entries in the following table use this structure definition:
@@ -8,11 +14,28 @@ module CactusKev
     *   description is an english language description of the hand;
     *   domination is the percentage of hands less than or equal ot this one in value; and
     *   likelihood is the probability that a rnadom hand falls in this class
+    *   cards, expressed as an array [n_2, n_3, ..., n_A], where n_3 is, e.g., the number of treys
 =end
     class EqCl < Struct.new(:code, :cards, :kind, :description, :domination, :likelihood)
         include Comparable
+        def initialize(*parms)
+            super(*parms)
+            set_and_insert_card_array_into_table
+            self
+        end
         def <=> other
             -(self.code <=> other.code)
+        end
+        private
+        def set_and_insert_card_array_into_table
+            product = 1
+            cards.each_char{|char| product *= Card::Primes[Card::FACE_VALUES[char]-2 ]}
+            EqClNodeHash[product] ||= EqClNode.new
+            if kind == STRAIGHT_FLUSH_KIND || kind == FLUSH_KIND
+                EqClNodeHash[product].eq_flush = self
+            else
+                EqClNodeHash[product].eq_nonflush = self
+            end
         end
     end
 

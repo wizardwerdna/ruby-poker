@@ -1,4 +1,6 @@
 $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__))   # For use/testing when no gem is installed
-require 'ruby-poker/card'
-require 'ruby-poker/poker_hand'
-require 'ruby-poker/naive_hand_evaluator'
+require File.expand_path('../ruby-poker/card', __FILE__)
+require File.expand_path('../ruby-poker/poker_hand', __FILE__)
+require File.expand_path('../ruby-poker/naive_evaluator', __FILE__)
+
+
