@@ -46,6 +46,20 @@ class TestCard < Test::Unit::TestCase
     assert_equal(52, @c4.value)
   end
   
+  def test_code0
+    assert_equal(7, @c1.code0)
+    assert_equal(21, @c2.code0)
+    assert_equal(35, @c3.code0)
+    assert_equal(49, @c4.code0)
+  end
+  
+  def test_code1
+    assert_equal(8, @c1.code1)
+    assert_equal(22, @c2.code1)
+    assert_equal(36, @c3.code1)
+    assert_equal(50, @c4.code1)
+  end
+  
   def test_natural_value
     assert_equal(1, Card.new("AC").natural_value)
     assert_equal(15, Card.new("2D").natural_value)
@@ -74,5 +88,5 @@ class TestCard < Test::Unit::TestCase
      assert_equal(Card.new('2s').cactus_kev_card_value, 0b00000000000000011000000000000010)
      assert_equal(Card.new('3s').cactus_kev_card_value, 0b00000000000000101000000100000011)
      assert_equal(Card.new('As').cactus_kev_card_value, 0b00010000000000001000110000101001)
-   end
+  end
 end

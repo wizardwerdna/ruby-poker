@@ -9,23 +9,37 @@ class CactusKevEvaluator < CactusKev::CactusKevValueEvaluator
     include CactusKev
     
     def score
-        cactus_kev_hand_eval(@hand.to_a.map{|each| each.cactus_kev_card_value})
+        cards = @hand.to_a.map{|each| each.cactus_kev_card_value}
+        size = cards.size
+        eq_cl_code = if size == 5
+            eval_5_cards(*cards)
+        elsif size == 7
+            eval_n_cards_unrolled(cards, false) #optimized for 7 cards
+        elsif size == 6
+            eval_n_cards_unrolled(cards, true) #optimized for 6 cards
+        elsif size > 5
+            eval_n_cards(cards)
+        else
+            raise "not enough cards(#{size}) for evaluation"
+        end
+        EqClTable[eq_cl_code]
     end
     
 private
 
-    # pass card array to approrpiate evaluator based on hand size
-    def cactus_kev_hand_eval(cards)
-        integer_result = case cards.size
-        when 5: eval_5_cards_fast(*cards)
-        when 7: eval_7_card_hand(cards)
-        else raise "This evaluator can only handle 5-card hands"
-        end
-        EqClTable[integer_result]
+    # determine the index in Hash_values for this hand using perfect hash
+    def find_perfect_hash(u)
+        u = (u+0xe91aaa35) & 0xffffffff
+        u ^= u >> 16;
+        u = (u + (u << 8)) & 0xffffffff
+        u ^= u >> 4;
+        b  = (u >> 8) & 0x1ff;
+        a  = ((u + (u << 2))&0xffffffff) >> 19;
+        a ^ Hash_adjust[b];
     end
     
     # evaluate using modified cactus_kev evaluator with perfect hash, returning an integer
-    def eval_5_cards_fast( c1, c2, c3, c4, c5)
+    def eval_5_cards( c1, c2, c3, c4, c5)
         q = (c1 | c2 | c3 | c4 | c5) >> 16;
         case
         when (c1 & c2 & c3 & c4 & c5 & 0xf000) > 0
@@ -39,27 +53,38 @@ private
         end
     end
 
-    # evaluate each permutation using eval_5cards_fast, returning the best result as an integer
-    def eval_7_card_hand( cards )
-        best = 9999
-        Perm7.each do |perm|
-            q = eval_5_cards_fast(
-                cards[perm[0]], cards[perm[1]], cards[perm[2]], cards[perm[3]], cards[perm[4]])
-            if q<best
-                best = q
-            end
+    # return the integer corresponding to the best score of all 5-card combinations from cards
+    def eval_n_cards(cards)
+        cards.combination(5).inject(EqClTable.last.code) do |best_code, comb|
+            q=eval_5_cards(*comb)
+            if q<best_code then q; else best_code; end
         end
-        best
     end
-    
-    # determine the index in Hash_values for this hand using perfect hash
-    def find_perfect_hash(u)
-        u = (u+0xe91aaa35) & 0xffffffff
-        u ^= u >> 16;
-        u = (u + (u << 8)) & 0xffffffff
-        u ^= u >> 4;
-        b  = (u >> 8) & 0x1ff;
-        a  = ((u + (u << 2))&0xffffffff) >> 19;
-        a ^ Hash_adjust[b];
-    end
+
+    # special case unrolling eval_n_cards for 6 and 7 cards
+    def eval_n_cards_unrolled(cards, has_6_cards=false)
+    	best=eval_5_cards( cards[0], cards[1], cards[2], cards[3], cards[4] )
+    	if (q=eval_5_cards( cards[0], cards[1], cards[2], cards[3], cards[5] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[1], cards[2], cards[4], cards[5] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[1], cards[3], cards[4], cards[5] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[2], cards[3], cards[4], cards[5] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[1], cards[2], cards[3], cards[4], cards[5] )) < best then best=q; end
+    	return best if has_6_cards
+    	if (q=eval_5_cards( cards[0], cards[1], cards[2], cards[3], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[1], cards[2], cards[4], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[1], cards[2], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[1], cards[3], cards[4], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[1], cards[3], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[1], cards[4], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[2], cards[3], cards[4], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[2], cards[3], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[2], cards[4], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[0], cards[3], cards[4], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[1], cards[2], cards[3], cards[4], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[1], cards[2], cards[3], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[1], cards[2], cards[4], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[1], cards[3], cards[4], cards[5], cards[6] )) < best then best=q; end
+    	if (q=eval_5_cards( cards[2], cards[3], cards[4], cards[5], cards[6] )) < best then best=q; end
+    	best
+	end
 end

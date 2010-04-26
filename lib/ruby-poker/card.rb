@@ -26,25 +26,35 @@ class Card
   
   Primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
 
-  def Card.face_value(face)
-    face.upcase!
-    if face == 'L' || !FACE_VALUES.has_key?(face)
-      nil
-    else
-      FACE_VALUES[face] - 1
-    end
+  class << self
+      def face_value(face)
+        face.upcase!
+        if face == 'L' || !FACE_VALUES.has_key?(face)
+          nil
+        else
+          FACE_VALUES[face] - 1
+        end
+      end
+      
+      def deck
+         @@deck = Array(52){|i| Card.new()}
+      end
+      
+      def for_code code
+      end
+      
   end
 
   private
   
-  "index of cards including the 'L' card"
+  # index of cards including the 'L' card
   def build_from_value(value)
     @value = value
     @suit  = value / FACES.size()
     @face  = (value % FACES.size())
   end
   
-  "index of cards, not including the 'L' cards"
+  # index of cards, not including the 'L' cards
   def build_from_index(index)
       @suit = value / 13
       @face = index % 13
@@ -109,6 +119,19 @@ class Card
   # If to_card is called on a `Card` it should return itself
   def to_card
     self
+  end
+  
+  # returns a value corresponding to a 0-based natural ordering of cards, excluding 'L'
+  # thus Card.new("2c").code0 == 0
+  #      Card.new("as").code0 == 12
+  #      Card.new("2d").code0 == 13
+  #      Card.new("as").code0 == 51
+  def code0
+      @memoized_code0 ||= 13 * @suit + @face - 1
+  end
+  
+  def code1
+      @memoized_code1 ||= 13 * @suit + @face
   end
   
   # Compare the face value of this card with another card. Returns:

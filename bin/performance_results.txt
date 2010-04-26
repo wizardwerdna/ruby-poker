@@ -1,56 +1,98 @@
+pokrwiz:ruby-poker werdna$ ruby bin/profile.rb
+# reading dag_table
+# 33101550 entries found.
+  0.930000   0.590000   1.520000 (  1.506094)
 
-Running “rp_five_card_example.rb”…
-ruby 1.8.7 (2009-06-08 patchlevel 173) [universal-darwin10.0]
-Theme:  
 Tareweight Evaluators (100,000 random hands)
                                               user     system      total        real
-CactusKevTareEvaluator(5 card hands)      1.640000   0.080000   1.720000 (  3.736894)
-CactusKevTareEvaluator(7 card hands)      1.650000   0.070000   1.720000 (  3.702876)
-NaiveTareEvaluator(5 card hands)          1.370000   0.060000   1.430000 (  3.066583)
-NaiveTareEvaluator(7 card hands)          1.370000   0.070000   1.440000 (  3.174153)
+CactusKevTareEvaluator(5 card hands)      3.880000   0.120000   4.000000 (  4.005533)
+CactusKevTareEvaluator(7 card hands)      3.910000   0.090000   4.000000 (  3.997301)
+HurleyTareEvaluator(5 card hands)         1.350000   0.090000   1.440000 (  1.445286)
+HurleyTareEvaluator(7 card hands)         1.560000   0.100000   1.660000 (  1.662132)
 
 ===================
 
 7-card shootout (100,000 random hands)
                                               user     system      total        real
-CactusKevEvaluator                       13.880000   0.110000  13.990000 ( 29.635299)
-CactusKevRubyEvaluator                   24.460000   0.180000  24.640000 ( 51.019181)
-CactusKevBinarySearchEvaluator           25.500000   0.120000  25.620000 ( 52.816490)
-NaiveEvaluator                           64.310000   1.320000  65.630000 (136.075693)
+CactusKev2p2Evaluator                     1.930000   0.080000   2.010000 (  2.006648)
+CactusKevEvaluator                       12.280000   0.100000  12.380000 ( 12.382839)
+CactusKevRubyEvaluator                   14.290000   0.120000  14.410000 ( 14.404539)
+CactusKevBinarySearchEvaluator           26.210000   0.090000  26.300000 ( 26.298261)
+HurleyEvaluator                          88.100000   1.260000  89.360000 ( 89.362515)
 
 ===================
 
 5-card shootout (exhaustive)
 ===
+Performance and validation tests for CactusKev2p2Evaluator
+                                              user     system      total        real
+CactusKev2p2Evaluator(2c)                 1.330000   0.030000   1.360000 (  1.365414)
+CactusKev2p2Evaluator(2c)                 1.320000   0.020000   1.340000 (  1.345188)
+CactusKev2p2Evaluator(2c)                 1.300000   0.030000   1.330000 (  1.327653)
+CactusKev2p2Evaluator(3c)                 1.530000   0.030000   1.560000 (  1.563125)
+CactusKev2p2Evaluator(3c)                 1.530000   0.030000   1.560000 (  1.563720)
+CactusKev2p2Evaluator(4c)                 1.530000   0.030000   1.560000 (  1.561013)
+CactusKev2p2Evaluator(4c)                 1.530000   0.030000   1.560000 (  1.563619)
+CactusKev2p2Evaluator(5c)                 1.530000   0.040000   1.570000 (  1.562736)
+CactusKev2p2Evaluator(5c)                 1.340000   0.030000   1.370000 (  1.361374)
+CactusKev2p2Evaluator(6c)                 1.310000   0.020000   1.330000 (  1.328779)
+CactusKev2p2Evaluator(6c)                 1.290000   0.030000   1.320000 (  1.318903)
+CactusKev2p2Evaluator(7c)                 1.530000   0.030000   1.560000 (  1.563218)
+CactusKev2p2Evaluator(7c)                 1.530000   0.030000   1.560000 (  1.563753)
+CactusKev2p2Evaluator(8c)                 1.540000   0.040000   1.580000 (  1.568530)
+CactusKev2p2Evaluator(9c)                 1.540000   0.030000   1.570000 (  1.569762)
+CactusKev2p2Evaluator(9c)                 1.530000   0.030000   1.560000 (  1.566483)
+CactusKev2p2Evaluator(Tc)                 1.330000   0.020000   1.350000 (  1.355421)
+CactusKev2p2Evaluator(Jc)                 1.300000   0.020000   1.320000 (  1.326361)
+CactusKev2p2Evaluator(Qc)                 1.300000   0.030000   1.330000 (  1.321319)
+CactusKev2p2Evaluator(Kc)                 1.530000   0.030000   1.560000 (  1.569361)
+CactusKev2p2Evaluator(Ac)                 1.540000   0.030000   1.570000 (  1.566057)
+CactusKev2p2Evaluator(3d)                 1.530000   0.040000   1.570000 (  1.566936)
+CactusKev2p2Evaluator(4d)                 1.540000   0.040000   1.580000 (  1.574611)
+CactusKev2p2Evaluator(6d)                 1.540000   0.030000   1.570000 (  1.571301)
+CactusKev2p2Evaluator(9d)                 1.330000   0.030000   1.360000 (  1.363995)
+CactusKev2p2Evaluator(Qd)                 1.540000   0.020000   1.560000 (  1.558905)
+Elapsed Time: 42.35771
+kind hits
+   0 1302540
+   1 1098240
+   2  123552
+   3   54912
+   4   10200
+   5    5108
+   6    3744
+   7     624
+   8      40
+===
 Performance and validation tests for CactusKevEvaluator
                                               user     system      total        real
-CactusKevEvaluator(2c)                    1.730000   0.030000   1.760000 (  3.594032)
-CactusKevEvaluator(2c)                    1.770000   0.020000   1.790000 (  3.767797)
-CactusKevEvaluator(2c)                    1.750000   0.020000   1.770000 (  3.605789)
-CactusKevEvaluator(3c)                    1.760000   0.030000   1.790000 (  3.712074)
-CactusKevEvaluator(3c)                    1.780000   0.030000   1.810000 (  3.763843)
-CactusKevEvaluator(4c)                    1.760000   0.030000   1.790000 (  3.713039)
-CactusKevEvaluator(4c)                    1.770000   0.030000   1.800000 (  3.713898)
-CactusKevEvaluator(5c)                    1.760000   0.030000   1.790000 (  3.667055)
-CactusKevEvaluator(5c)                    1.760000   0.030000   1.790000 (  3.649991)
-CactusKevEvaluator(6c)                    1.780000   0.040000   1.820000 (  3.805563)
-CactusKevEvaluator(6c)                    1.770000   0.020000   1.790000 (  3.682601)
-CactusKevEvaluator(7c)                    1.780000   0.030000   1.810000 (  3.690141)
-CactusKevEvaluator(7c)                    1.760000   0.020000   1.780000 (  3.677187)
-CactusKevEvaluator(8c)                    1.760000   0.020000   1.780000 (  3.688591)
-CactusKevEvaluator(9c)                    1.790000   0.030000   1.820000 (  3.770648)
-CactusKevEvaluator(9c)                    1.760000   0.020000   1.780000 (  3.646176)
-CactusKevEvaluator(Tc)                    1.780000   0.040000   1.820000 (  3.946434)
-CactusKevEvaluator(Jc)                    1.780000   0.030000   1.810000 (  3.710535)
-CactusKevEvaluator(Qc)                    1.770000   0.040000   1.810000 (  3.785943)
-CactusKevEvaluator(Kc)                    1.800000   0.040000   1.840000 (  3.742809)
-CactusKevEvaluator(Ac)                    1.760000   0.020000   1.780000 (  3.808404)
-CactusKevEvaluator(3d)                    1.750000   0.020000   1.770000 (  3.763362)
-CactusKevEvaluator(4d)                    1.750000   0.020000   1.770000 (  3.651973)
-CactusKevEvaluator(6d)                    1.740000   0.020000   1.760000 (  3.688057)
-CactusKevEvaluator(9d)                    1.770000   0.030000   1.800000 (  3.658913)
-CactusKevEvaluator(Qd)                    1.770000   0.020000   1.790000 (  3.718218)
-Elapsed Time: 100.366505
+CactusKevEvaluator(2c)                    1.760000   0.050000   1.810000 (  1.803073)
+CactusKevEvaluator(2c)                    1.740000   0.040000   1.780000 (  1.778634)
+CactusKevEvaluator(2c)                    1.700000   0.030000   1.730000 (  1.735240)
+CactusKevEvaluator(3c)                    1.750000   0.030000   1.780000 (  1.786753)
+CactusKevEvaluator(3c)                    1.730000   0.040000   1.770000 (  1.769548)
+CactusKevEvaluator(4c)                    1.710000   0.030000   1.740000 (  1.735869)
+CactusKevEvaluator(4c)                    1.760000   0.030000   1.790000 (  1.789237)
+CactusKevEvaluator(5c)                    1.720000   0.040000   1.760000 (  1.761343)
+CactusKevEvaluator(5c)                    1.730000   0.040000   1.770000 (  1.766403)
+CactusKevEvaluator(6c)                    1.760000   0.040000   1.800000 (  1.797539)
+CactusKevEvaluator(6c)                    1.730000   0.020000   1.750000 (  1.760820)
+CactusKevEvaluator(7c)                    1.720000   0.030000   1.750000 (  1.754442)
+CactusKevEvaluator(7c)                    1.750000   0.040000   1.790000 (  1.786885)
+CactusKevEvaluator(8c)                    1.730000   0.030000   1.760000 (  1.761778)
+CactusKevEvaluator(9c)                    1.730000   0.030000   1.760000 (  1.764415)
+CactusKevEvaluator(9c)                    1.730000   0.030000   1.760000 (  1.767144)
+CactusKevEvaluator(Tc)                    1.750000   0.040000   1.790000 (  1.782593)
+CactusKevEvaluator(Jc)                    1.730000   0.030000   1.760000 (  1.765141)
+CactusKevEvaluator(Qc)                    2.020000   0.040000   2.060000 (  2.059503)
+CactusKevEvaluator(Kc)                    1.730000   0.020000   1.750000 (  1.760743)
+CactusKevEvaluator(Ac)                    1.720000   0.050000   1.770000 (  1.771577)
+CactusKevEvaluator(3d)                    1.710000   0.040000   1.750000 (  1.742502)
+CactusKevEvaluator(4d)                    1.740000   0.030000   1.770000 (  1.771284)
+CactusKevEvaluator(6d)                    1.720000   0.030000   1.750000 (  1.750079)
+CactusKevEvaluator(9d)                    1.700000   0.030000   1.730000 (  1.735727)
+CactusKevEvaluator(Qd)                    1.700000   0.040000   1.740000 (  1.739952)
+Elapsed Time: 49.548706
 kind hits
    0 1302540
    1 1098240
@@ -64,33 +106,33 @@ kind hits
 ===
 Performance and validation tests for CactusKevRubyEvaluator
                                               user     system      total        real
-CactusKevRubyEvaluator(2c)                1.830000   0.020000   1.850000 (  3.766600)
-CactusKevRubyEvaluator(2c)                1.820000   0.030000   1.850000 (  3.756997)
-CactusKevRubyEvaluator(2c)                1.820000   0.020000   1.840000 (  3.871812)
-CactusKevRubyEvaluator(3c)                1.830000   0.020000   1.850000 (  3.838945)
-CactusKevRubyEvaluator(3c)                1.820000   0.020000   1.840000 (  3.695516)
-CactusKevRubyEvaluator(4c)                1.880000   0.020000   1.900000 (  3.803778)
-CactusKevRubyEvaluator(4c)                1.890000   0.020000   1.910000 (  3.904329)
-CactusKevRubyEvaluator(5c)                1.880000   0.020000   1.900000 (  3.946240)
-CactusKevRubyEvaluator(5c)                1.890000   0.020000   1.910000 (  3.997673)
-CactusKevRubyEvaluator(6c)                1.830000   0.030000   1.860000 (  3.843461)
-CactusKevRubyEvaluator(6c)                1.850000   0.020000   1.870000 (  3.831265)
-CactusKevRubyEvaluator(7c)                1.830000   0.020000   1.850000 (  3.668121)
-CactusKevRubyEvaluator(7c)                1.830000   0.020000   1.850000 (  3.804757)
-CactusKevRubyEvaluator(8c)                1.830000   0.020000   1.850000 (  3.859241)
-CactusKevRubyEvaluator(9c)                1.890000   0.020000   1.910000 (  3.919625)
-CactusKevRubyEvaluator(9c)                1.890000   0.020000   1.910000 (  4.075906)
-CactusKevRubyEvaluator(Tc)                1.890000   0.020000   1.910000 (  3.973159)
-CactusKevRubyEvaluator(Jc)                1.880000   0.020000   1.900000 (  4.035956)
-CactusKevRubyEvaluator(Qc)                1.850000   0.020000   1.870000 (  3.926018)
-CactusKevRubyEvaluator(Kc)                1.830000   0.020000   1.850000 (  3.831089)
-CactusKevRubyEvaluator(Ac)                1.840000   0.020000   1.860000 (  3.798804)
-CactusKevRubyEvaluator(3d)                1.840000   0.020000   1.860000 (  3.901690)
-CactusKevRubyEvaluator(4d)                1.830000   0.030000   1.860000 (  3.840883)
-CactusKevRubyEvaluator(6d)                1.910000   0.020000   1.930000 (  4.016451)
-CactusKevRubyEvaluator(9d)                1.900000   0.020000   1.920000 (  3.962814)
-CactusKevRubyEvaluator(Qd)                1.880000   0.020000   1.900000 (  4.037621)
-Elapsed Time: 105.670889
+CactusKevRubyEvaluator(2c)                1.540000   0.030000   1.570000 (  1.577573)
+CactusKevRubyEvaluator(2c)                1.520000   0.040000   1.560000 (  1.551174)
+CactusKevRubyEvaluator(2c)                1.520000   0.040000   1.560000 (  1.553840)
+CactusKevRubyEvaluator(3c)                1.530000   0.040000   1.570000 (  1.572475)
+CactusKevRubyEvaluator(3c)                1.500000   0.030000   1.530000 (  1.534045)
+CactusKevRubyEvaluator(4c)                1.530000   0.030000   1.560000 (  1.565188)
+CactusKevRubyEvaluator(4c)                1.500000   0.030000   1.530000 (  1.529173)
+CactusKevRubyEvaluator(5c)                1.530000   0.030000   1.560000 (  1.566023)
+CactusKevRubyEvaluator(5c)                1.500000   0.040000   1.540000 (  1.529904)
+CactusKevRubyEvaluator(6c)                1.530000   0.030000   1.560000 (  1.557273)
+CactusKevRubyEvaluator(6c)                1.510000   0.030000   1.540000 (  1.540277)
+CactusKevRubyEvaluator(7c)                1.500000   0.030000   1.530000 (  1.538694)
+CactusKevRubyEvaluator(7c)                1.520000   0.030000   1.550000 (  1.553240)
+CactusKevRubyEvaluator(8c)                1.500000   0.040000   1.540000 (  1.530746)
+CactusKevRubyEvaluator(9c)                1.500000   0.030000   1.530000 (  1.533015)
+CactusKevRubyEvaluator(9c)                1.510000   0.030000   1.540000 (  1.537799)
+CactusKevRubyEvaluator(Tc)                1.220000   0.020000   1.240000 (  1.239651)
+CactusKevRubyEvaluator(Jc)                1.220000   0.020000   1.240000 (  1.242123)
+CactusKevRubyEvaluator(Qc)                1.500000   0.030000   1.530000 (  1.527709)
+CactusKevRubyEvaluator(Kc)                1.490000   0.030000   1.520000 (  1.525746)
+CactusKevRubyEvaluator(Ac)                1.530000   0.040000   1.570000 (  1.556681)
+CactusKevRubyEvaluator(3d)                1.530000   0.030000   1.560000 (  1.564331)
+CactusKevRubyEvaluator(4d)                1.520000   0.030000   1.550000 (  1.561121)
+CactusKevRubyEvaluator(6d)                1.520000   0.030000   1.550000 (  1.554720)
+CactusKevRubyEvaluator(9d)                1.510000   0.040000   1.550000 (  1.546494)
+CactusKevRubyEvaluator(Qd)                1.520000   0.040000   1.560000 (  1.563582)
+Elapsed Time: 41.412455
 kind hits
    0 1302540
    1 1098240
@@ -104,33 +146,33 @@ kind hits
 ===
 Performance and validation tests for CactusKevBinarySearchEvaluator
                                               user     system      total        real
-CactusKevBinarySearchEvaluator(2c)        2.320000   0.020000   2.340000 (  4.890750)
-CactusKevBinarySearchEvaluator(2c)        2.440000   0.020000   2.460000 (  5.053701)
-CactusKevBinarySearchEvaluator(2c)        2.350000   0.020000   2.370000 (  4.910586)
-CactusKevBinarySearchEvaluator(3c)        2.400000   0.030000   2.430000 (  5.049184)
-CactusKevBinarySearchEvaluator(3c)        2.390000   0.020000   2.410000 (  4.900648)
-CactusKevBinarySearchEvaluator(4c)        2.410000   0.030000   2.440000 (  5.062290)
-CactusKevBinarySearchEvaluator(4c)        2.420000   0.030000   2.450000 (  5.068798)
-CactusKevBinarySearchEvaluator(5c)        2.400000   0.020000   2.420000 (  4.969575)
-CactusKevBinarySearchEvaluator(5c)        2.410000   0.030000   2.440000 (  5.124371)
-CactusKevBinarySearchEvaluator(6c)        2.430000   0.030000   2.460000 (  5.286905)
-CactusKevBinarySearchEvaluator(6c)        2.450000   0.030000   2.480000 (  5.118025)
-CactusKevBinarySearchEvaluator(7c)        2.440000   0.020000   2.460000 (  5.127161)
-CactusKevBinarySearchEvaluator(7c)        2.410000   0.020000   2.430000 (  4.925288)
-CactusKevBinarySearchEvaluator(8c)        2.450000   0.030000   2.480000 (  5.251254)
-CactusKevBinarySearchEvaluator(9c)        2.450000   0.030000   2.480000 (  5.229531)
-CactusKevBinarySearchEvaluator(9c)        2.410000   0.030000   2.440000 (  5.113424)
-CactusKevBinarySearchEvaluator(Tc)        2.430000   0.020000   2.450000 (  5.089546)
-CactusKevBinarySearchEvaluator(Jc)        2.460000   0.030000   2.490000 (  5.061880)
-CactusKevBinarySearchEvaluator(Qc)        2.430000   0.030000   2.460000 (  5.159157)
-CactusKevBinarySearchEvaluator(Kc)        2.460000   0.030000   2.490000 (  5.139488)
-CactusKevBinarySearchEvaluator(Ac)        2.390000   0.020000   2.410000 (  4.908267)
-CactusKevBinarySearchEvaluator(3d)        2.350000   0.020000   2.370000 (  4.886246)
-CactusKevBinarySearchEvaluator(4d)        2.360000   0.020000   2.380000 (  5.075178)
-CactusKevBinarySearchEvaluator(6d)        2.410000   0.030000   2.440000 (  5.009251)
-CactusKevBinarySearchEvaluator(9d)        2.390000   0.020000   2.410000 (  4.939487)
-CactusKevBinarySearchEvaluator(Qd)        2.280000   0.030000   2.310000 (  4.658302)
-Elapsed Time: 135.732001
+CactusKevBinarySearchEvaluator(2c)        2.290000   0.040000   2.330000 (  2.324666)
+CactusKevBinarySearchEvaluator(2c)        2.360000   0.040000   2.400000 (  2.393323)
+CactusKevBinarySearchEvaluator(2c)        2.290000   0.020000   2.310000 (  2.306654)
+CactusKevBinarySearchEvaluator(3c)        2.310000   0.030000   2.340000 (  2.353497)
+CactusKevBinarySearchEvaluator(3c)        2.350000   0.040000   2.390000 (  2.380560)
+CactusKevBinarySearchEvaluator(4c)        2.320000   0.020000   2.340000 (  2.347572)
+CactusKevBinarySearchEvaluator(4c)        2.360000   0.030000   2.390000 (  2.398127)
+CactusKevBinarySearchEvaluator(5c)        2.330000   0.030000   2.360000 (  2.392459)
+CactusKevBinarySearchEvaluator(5c)        2.340000   0.030000   2.370000 (  2.367045)
+CactusKevBinarySearchEvaluator(6c)        2.330000   0.030000   2.360000 (  2.364940)
+CactusKevBinarySearchEvaluator(6c)        2.360000   0.030000   2.390000 (  2.388848)
+CactusKevBinarySearchEvaluator(7c)        2.390000   0.040000   2.430000 (  2.427707)
+CactusKevBinarySearchEvaluator(7c)        2.330000   0.030000   2.360000 (  2.351397)
+CactusKevBinarySearchEvaluator(8c)        2.370000   0.030000   2.400000 (  2.407979)
+CactusKevBinarySearchEvaluator(9c)        2.370000   0.020000   2.390000 (  2.399727)
+CactusKevBinarySearchEvaluator(9c)        2.360000   0.030000   2.390000 (  2.386609)
+CactusKevBinarySearchEvaluator(Tc)        2.360000   0.030000   2.390000 (  2.388858)
+CactusKevBinarySearchEvaluator(Jc)        2.360000   0.030000   2.390000 (  2.388128)
+CactusKevBinarySearchEvaluator(Qc)        2.360000   0.030000   2.390000 (  2.387428)
+CactusKevBinarySearchEvaluator(Kc)        2.370000   0.030000   2.400000 (  2.402953)
+CactusKevBinarySearchEvaluator(Ac)        2.300000   0.040000   2.340000 (  2.333782)
+CactusKevBinarySearchEvaluator(3d)        2.270000   0.030000   2.300000 (  2.303456)
+CactusKevBinarySearchEvaluator(4d)        2.280000   0.030000   2.310000 (  2.310460)
+CactusKevBinarySearchEvaluator(6d)        2.310000   0.030000   2.340000 (  2.326295)
+CactusKevBinarySearchEvaluator(9d)        2.310000   0.030000   2.340000 (  2.343405)
+CactusKevBinarySearchEvaluator(Qd)        2.190000   0.030000   2.220000 (  2.219050)
+Elapsed Time: 65.306638
 kind hits
    0 1302540
    1 1098240
@@ -142,8 +184,44 @@ kind hits
    7     624
    8      40
 ===
-Performance and validation tests for NaiveEvaluator
+Performance and validation tests for HurleyEvaluator
                                               user     system      total        real
-NaiveEvaluator(2c)                       51.170000   0.670000  51.840000 (107.714793)
-NaiveEvaluator(2c)                       52.070000   0.730000  52.800000 (115.732001)
-NaiveEvaluator(2c)                       51.570000   0.730000  52.300000 (110.036806)
+HurleyEvaluator(2c)                      60.240000   0.510000  60.750000 ( 60.781045)
+HurleyEvaluator(2c)                      60.800000   0.630000  61.430000 ( 61.466748)
+HurleyEvaluator(2c)                      60.480000   0.470000  60.950000 ( 60.953451)
+HurleyEvaluator(3c)                      60.660000   0.520000  61.180000 ( 61.182501)
+HurleyEvaluator(3c)                      61.030000   0.660000  61.690000 ( 61.686958)
+HurleyEvaluator(4c)                      60.620000   0.340000  60.960000 ( 60.961655)
+HurleyEvaluator(4c)                      60.910000   0.650000  61.560000 ( 61.567607)
+HurleyEvaluator(5c)                      60.910000   0.500000  61.410000 ( 61.413964)
+HurleyEvaluator(5c)                      60.930000   0.520000  61.450000 ( 61.441348)
+HurleyEvaluator(6c)                      60.930000   0.470000  61.400000 ( 61.398574)
+HurleyEvaluator(6c)                      61.030000   0.460000  61.490000 ( 61.488559)
+HurleyEvaluator(7c)                      60.800000   0.600000  61.400000 ( 61.410570)
+HurleyEvaluator(7c)                      61.320000   0.620000  61.940000 ( 62.130106)
+HurleyEvaluator(8c)                      61.290000   0.590000  61.880000 ( 61.929087)
+HurleyEvaluator(9c)                      61.660000   0.550000  62.210000 ( 62.245561)
+HurleyEvaluator(9c)                      61.150000   0.740000  61.890000 ( 62.074310)
+HurleyEvaluator(Tc)                      61.600000   0.760000  62.360000 ( 62.702238)
+HurleyEvaluator(Jc)                      61.640000   0.550000  62.190000 ( 62.342080)
+HurleyEvaluator(Qc)                      60.920000   0.670000  61.590000 ( 61.610662)
+HurleyEvaluator(Kc)                      63.470000   0.520000  63.990000 ( 64.086545)
+HurleyEvaluator(Ac)                      61.430000   0.770000  62.200000 ( 62.272384)
+HurleyEvaluator(3d)                      60.460000   0.740000  61.200000 ( 61.205374)
+HurleyEvaluator(4d)                      60.600000   0.500000  61.100000 ( 61.095468)
+HurleyEvaluator(6d)                      60.990000   0.780000  61.770000 ( 61.769668)
+HurleyEvaluator(9d)                      61.210000   0.550000  61.760000 ( 61.754085)
+HurleyEvaluator(Qd)                      61.080000   0.530000  61.610000 ( 61.598036)
+Elapsed Time: 1607.346434
+kind hits
+   1 1302540
+   2 1098240
+   3  123552
+   4   54912
+   5   10200
+   6    5108
+   7    3744
+   8     624
+   9      36
+  10       4
+pokrwiz:ruby-poker werdna$ 

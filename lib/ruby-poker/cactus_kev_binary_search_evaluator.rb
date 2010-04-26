@@ -17,8 +17,8 @@ private
     # pass card array to approrpiate evaluator based on hand size
     def cactus_kev_hand_eval(cards)
         integer_result = case cards.size
-        when 5: eval_5_cards(*cards)
-        when 7: eval_7_card_hand(cards)
+        when 5 then eval_5_cards(*cards)
+        when 7 then eval_7_card_hand(cards)
         else raise "This evaluator can only handle 5-card hands"
         end
         EqClTable[integer_result]
@@ -43,7 +43,7 @@ private
     # evaluate each permutation using eval_5cards_fast, returning the best result as an integer
     def eval_7_card_hand( cards )
         best = 9999
-        Perm7.each do |perm|
+        Comb7.each do |perm|
             q = eval_5_cards(
                 cards[perm[0]], cards[perm[1]], cards[perm[2]], cards[perm[3]], cards[perm[4]])
             if q<best

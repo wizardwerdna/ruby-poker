@@ -1,10 +1,11 @@
 require 'benchmark'
 require File.expand_path('../../lib/ruby-poker', __FILE__)
-require File.expand_path('../../lib/ruby-poker/naive_evaluator', __FILE__)
-require File.expand_path('../../lib/ruby-poker/naive_tare_evaluator', __FILE__)
+require File.expand_path('../../lib/ruby-poker/hurley_evaluator', __FILE__)
+require File.expand_path('../../lib/ruby-poker/hurley_tare_evaluator', __FILE__)
 require File.expand_path('../../lib/ruby-poker/cactus_kev_evaluator', __FILE__)
 require File.expand_path('../../lib/ruby-poker/cactus_kev_tare_evaluator', __FILE__)
 require File.expand_path('../../lib/ruby-poker/cactus_kev_ruby_evaluator', __FILE__)
+require File.expand_path('../../lib/ruby-poker/cactus_kev_2p2_evaluator', __FILE__)
 require File.expand_path('../../lib/ruby-poker/cactus_kev_binary_search_evaluator', __FILE__)
 
 Deck = []
@@ -50,8 +51,8 @@ def evaluate_1000000_random_7_card_hands evaluator
     end
 end
 
-TareEvaluators = [CactusKevTareEvaluator, NaiveTareEvaluator]
-Evaluators = [CactusKevEvaluator, CactusKevRubyEvaluator, CactusKevBinarySearchEvaluator, NaiveEvaluator]
+TareEvaluators = [CactusKevTareEvaluator, HurleyTareEvaluator]
+Evaluators = [CactusKev2p2Evaluator, CactusKevEvaluator, CactusKevRubyEvaluator, CactusKevBinarySearchEvaluator, HurleyEvaluator]
 
 puts "Tareweight Evaluators (100,000 random hands)"
 Benchmark.bm(40) do |bm|

@@ -2511,12 +2511,24 @@ module CactusKev
         5330, 5048, 4037,  166, 6033, 4625, 3326, 2013, 5283,  136, 3373, 2154,  166,  166,  166, 4421, 
          166, 5438, 2627, 2266, 2320,  166, 2588, 4790, 4290,  166, 4767, 5829, 2925, 5916, 2133,  166
     ]
-end
+
 
 =begin rdoc
-    Used to facilitate extending this hand evaluator to 7-card hands.
+    Precomputed 5-card combinations from 6-card hands.
 =end
-    Perm7 = [
+    Comb6 = [
+      [ 0, 1, 2, 3, 4 ],
+      [ 0, 1, 2, 3, 5 ],
+      [ 0, 1, 2, 4, 5 ],
+      [ 0, 1, 3, 4, 5 ],
+      [ 0, 2, 3, 4, 5 ],
+      [ 1, 2, 3, 4, 5 ],
+    ]
+
+=begin rdoc
+    Precomputed 5-card combinations from 7-card hands.
+=end
+    Comb7 = [
       [ 0, 1, 2, 3, 4 ],
       [ 0, 1, 2, 3, 5 ],
       [ 0, 1, 2, 3, 6 ],
@@ -2539,3 +2551,4 @@ end
       [ 1, 3, 4, 5, 6 ],
       [ 2, 3, 4, 5, 6 ]
     ]
+end

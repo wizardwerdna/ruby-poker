@@ -11,7 +11,7 @@ class PokerHand
   #
   #     PokerHand.new("3d 5c 8h Ks")   # => #<PokerHand:0x5c673c ...
   #     PokerHand.new(["3d", "5c", "8h", "Ks"])  # => #<PokerHand:0x5c2d6c ...
-  def initialize(cards = [], evaluator_klass=NaiveEvaluator)
+  def initialize(cards = [], evaluator_klass=HurleyEvaluator)
     if cards.is_a? Array
       @hand = cards.map do |card|
         if card.is_a? Card
