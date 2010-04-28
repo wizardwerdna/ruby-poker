@@ -9,16 +9,6 @@ require File.expand_path('../cactus_kev_five_card_evaluator_tables', __FILE__)
 =end
 class CactusKevRubyEvaluator < CactusKev::CactusKevValueEvaluator
     include CactusKev
-    # 
-    # def score
-    #     cards = @hand.to_a
-    #     case cards.size
-    #     when 5 then eval_5_card_hand(cards.to_a)
-    #     when 6 then eval_bigger_hand(cards.to_a)
-    #     when 7 then eval_bigger_hand(cards.to_a)
-    #     else raise "This evaluator can only handle 5-card hands"
-    #     end
-    # end
     
     def score
         cards = @hand.to_a

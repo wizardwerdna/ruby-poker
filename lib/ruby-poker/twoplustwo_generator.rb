@@ -33,7 +33,7 @@ module TwoPlusTwo
                 raise "cannot find card for #{thing.inspect}" unless string.size == 2
                 raise "cannot find card: invalid rank(#{string[0..0]})" unless rank = '23456789TJQKA23456789tjqka'.index(string[0..0])
                 raise "cannot find card: invalid suit(#{string[1..1]})" unless suit = 'CDHSXcdhsx'.index(string[1..1])
-                for_rank_and_suit (rank%13), (suit%5)
+                for_rank_and_suit((rank%13), (suit%5))
             end
 
             def suit_for_key key
@@ -352,6 +352,15 @@ module TwoPlusTwo
                 of cards that can follow in the next three cards, many, many nodes are saved with this solution.  The logic for
                 this compression technique is embodied in the DagHand enumeration logic.
                 
+            This provides significant compression.  The entirety of different hands the table must maintain here is a mere
+            1,226,746 of the 1 + C(53,1) + C(53,2) + ... + C(53, 7), or 180,287,928 combinations of 1- through 7-card hands,
+            and in particular, reduces the cost of the 7-card combinations from 53 octowords to 1.  When saved to disk in gzip
+            format, the entire file is merely 39,704,976 bytes.  While this is ginormous compared to the moderate tables of the
+            traditional CactusKev evaluators, it gives an order of magnitude improvement, and nearly 50 times improvement over
+            the Hurley approach.  Except where space is a significant commodity, this is the best approach I have found so far.
+            The final table in RAM contains 33,101,550 FixedInt entries, which is relatively efficiently stored as a single ruby
+            object with immediate integer values.
+                
             The graph is built up in levels, the level number corresponding to the number of cards in the hand.  We begin with
             the empty hand, and "enumerate" all hands that can be made by adding a card to it, coding the next enumerated hand
             with the next node number.  Thus, we fill out the table for the empty hand, keeping the 52 new nodes for the next
@@ -457,10 +466,19 @@ module TwoPlusTwo
     end
     
     require 'benchmark'
+    require 'zlib'
     class DagTable
         attr_accessor :table, :level_index
-        def initialize file_name='dag_table_file.dat'
-            load file_name
+        def initialize file_name='dag_table_file.dat.gz'
+            zload file_name
+        rescue 
+            begin
+                printf STDERR, "unable to zload #{file_name}, attempting zload of 'dag_table_file.dat.gz'\n"
+                zload 'dag_table_file.dat.gz'
+            rescue
+                printf STDERR, "unable to zload, attempting load of 'dag_table_file.dat'\n"
+                load 'dag_table_file.dat'
+            end
         end
         
         def load file_name='dag_table_file.dat'
@@ -477,13 +495,37 @@ module TwoPlusTwo
         def save file_name='dag_table_file.dat'
             results = Benchmark.measure do
                 printf STDERR, "# writing dag_table\n"
-                write_size = open(file_name, 'w') do |file|
+                write_size = Zlib::GzipWriter.open(file_name) do |file|
                     file.write(@table.pack("Q*"))
                 end
                 printf STDERR, "# #{write_size} bytes written (#{write_size/8} entries).\n"
             end
             printf STDERR, "%s\n", results.to_s
         end
+
+        def zload file_name='dag_table_file.dat.gz'
+            results = Benchmark.measure do
+                printf STDERR, "# reading zipped dag_table\n"
+                Zlib::GzipReader.open(file_name) do |gz|
+                    @table = gz.read.unpack("Q*")
+                end
+                printf STDERR, "# #{@table.size} entries found.\n"
+            end
+            printf STDERR, "%s\n", results.to_s
+        end
+            
+        def zsave file_name='dag_table_file.dat.gz'
+            results = Benchmark.measure do
+                printf STDERR, "# writing dag_table\n"
+                file = open(file_name, "w")
+                gz = Zlib::GzipWriter.new(file)
+                write_size = gz.write(@table.pack("Q*"))
+                gz.close
+                printf STDERR, "# #{write_size} bytes written (#{write_size/8} entries).\n"
+            end
+            printf STDERR, "%s\n", results.to_s
+        end
+
         
         def describe
             this_level = -1
@@ -626,7 +668,7 @@ module TwoPlusTwo
         end
         
         def to_s
-            "I'm a DagTable"
+            inspect
         end
         
         def inspect

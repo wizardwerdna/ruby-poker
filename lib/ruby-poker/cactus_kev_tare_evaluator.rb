@@ -32,7 +32,7 @@ private
         1
     end
 
-    # evaluate each permutation using eval_5cards_fast, returning the best result as an integer
+    # evaluate each combination using eval_5cards_fast, returning the best result as an integer
     def eval_7_card_hand( cards )
         1
     end

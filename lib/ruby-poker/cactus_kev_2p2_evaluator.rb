@@ -1,24 +1,38 @@
 require 'benchmark'
+require 'zlib'
 require File.expand_path('../cactus_kev_value', __FILE__)
 require File.expand_path('../cactus_kev_five_card_evaluator_tables', __FILE__)
 
 =begin rdoc
-    CactusKevRubyEvaluator (original), using a direct ruby hash from the product of prime numbers
-    corresponding to each card.  Because so much of the heavy lifting is passed to the machine
-    language in the interpreter, I thought this would be a huge win, but despite its simplicity,
-    it is a fair bit slower than the perfect hash cactus kev solution.
+    CactusKev2p2Evaluator (original), using a very large lookup table to evaluate hands.  The table
+    is given as a simple array of words, gzipped.  The table represents a directed acyclic graph, with
+    roots corresponding to single card hands, with 2C at index 53, 3C at index 106, and so forth.  Each principal
+    node is followed by 52 words which correspond to indeces of nodes for hands obtained by 2C, 3C and so forth.
+    The value at the node is the CactusKev equivalence class index corresponding to each hand.  Thus, if you have
+    an n-card hand represented by integers c1..cn, you can obtain the location of the hand value at..
+    
+            location = t[t[...t[t[t[c1]+c2]+c3...]+cn-1]+cn]
+            
+    and thus the evaluation can be found at
+    
+            EqClTable[t[location]]
+            
+    In addition to being lightning fast, this is also a very useful solution for evaluating partial hands across
+    many further continuations.  Thus, you can evaluate a flop, f1f2f3 against two hands with hole cards h1a, h1b
+    and h2a, h2b, respectively, to obtain locations for the partial evaluations of each hand, and then generate
+    exhaustively all turns and rivers, requiring only two indexes more for each exhaustive hand to obtain evaluations.
 =end
 class CactusKev2p2Evaluator < CactusKev::CactusKevValueEvaluator
     include CactusKev
     
     class << self
         @@t = nil
-        def table from_file_name='eval_dag_table_file.dat'
+        def table from_file_name='eval_dag_table_file.dat.gz'
             @@t ||= begin
                 results = Benchmark.measure do
                     printf STDERR, "# reading dag_table\n"
-                    open(File.expand_path("../#{from_file_name}", __FILE__), 'r') do |file|
-                        @@t = file.read.unpack("Q*")
+                    Zlib::GzipReader.open(File.expand_path("../#{from_file_name}", __FILE__)) do |gz|
+                        @@t = gz.read.unpack("Q*")
                     end
                     printf STDERR, "# #{@@t.size} entries found.\n"
                 end
@@ -27,8 +41,7 @@ class CactusKev2p2Evaluator < CactusKev::CactusKevValueEvaluator
             end
         end
     end
-    self.table 'eval_dag_table_file.dat'
-    
+    self.table 'eval_dag_table_file.dat.gz'    
     
     def score
         cards = @hand.hand

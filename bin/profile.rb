@@ -45,6 +45,12 @@ def evaluate_1000000_random_5_card_hands evaluator
     end
 end
 
+def evaluate_1000000_random_6_card_hands evaluator
+    (1..100000).each do
+        PokerHand.new(Deck.shuffle[0..5], evaluator).score
+    end
+end
+
 def evaluate_1000000_random_7_card_hands evaluator
     (1..100000).each do
         PokerHand.new(Deck.shuffle[0..6], evaluator).score
@@ -68,6 +74,15 @@ puts "7-card shootout (100,000 random hands)"
 Benchmark.bm(40) do |bm|
     Evaluators.each do |evaluator|
         bm.report(evaluator.to_s + "") {evaluate_1000000_random_7_card_hands evaluator}
+    end
+end
+puts
+puts "==================="
+puts
+puts "6-card shootout (100,000 random hands)"
+Benchmark.bm(40) do |bm|
+    Evaluators.each do |evaluator|
+        bm.report(evaluator.to_s + "") {evaluate_1000000_random_6_card_hands evaluator}
     end
 end
 puts
