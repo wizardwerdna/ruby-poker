@@ -36,24 +36,28 @@ Plural evaluators may be installed and tested for comparative accuracy and effic
 
 ## Example
 
-    require 'rubygems'
-    require 'ruby-poker'
-    
-    hand1 = PokerHand.new("8H 9C TC JD QH") # uses the hurley evaluator by default
-	  require 'ruby-poker/cactus_kev_2p2_evaluator' # loads the monstrously large table for 2p2
-    hand2 = PokerHand.new(["3D", "3C", "3S", "KD", "AH"], CactusKev2p2Evaluator) # uses the super-fast two plus two evaluator 
-    puts hand1                => 8h 9c Tc Jd Qh (Straight)
-    puts hand1.just_cards     => 8h 9c Tc Jd Qh
-    puts hand1.rank           => Straight
-    puts hand2                => 3d 3c 3s Kd Ah (Three of a kind)
-    puts hand2.rank           => Three of a kind
-    puts hand1 > hand2        => true
+```ruby
+require 'rubygems'
+require 'ruby-poker'
+
+hand1 = PokerHand.new("8H 9C TC JD QH") # uses the hurley evaluator by default
+require 'ruby-poker/cactus_kev_2p2_evaluator' # loads the monstrously large table for 2p2
+hand2 = PokerHand.new(["3D", "3C", "3S", "KD", "AH"], CactusKev2p2Evaluator) # uses the super-fast two plus two evaluator 
+puts hand1                => 8h 9c Tc Jd Qh (Straight)
+puts hand1.just_cards     => 8h 9c Tc Jd Qh
+puts hand1.rank           => Straight
+puts hand2                => 3d 3c 3s Kd Ah (Three of a kind)
+puts hand2.rank           => Three of a kind
+puts hand1 > hand2        => true
+```
 
 ## Duplicates
 
 By default ruby-poker will not raise an exception if you add the same card to a hand twice. You can tell ruby-poker to not allow duplicates by doing the following
 
-    PokerHand.allow_duplicates = false
+```ruby
+PokerHand.allow_duplicates = false
+```
     
 Place that line near the beginning of your program. The change is program wide so once `allow_duplicates` is set to `false`, _all_ poker hands will raise an exception if a duplicate card is added to the hand.
 
