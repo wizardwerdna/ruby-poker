@@ -14,13 +14,13 @@ Card representations can be passed to the PokerHand constructor as a string or a
 
 Plural evaluators may be installed and tested for comparative accuracy and efficiency.  By default, HurleyEvaluator, the Patrick Hurley algorithm (slow, but straightforward to understand and space-efficient) is used.  Other evaluators include:
 
-CactusKevBinarySearchEvaluator - The original Cactus-Kev evaluator, which exploits four smallish (about 10k FixedInt) lookup tables to quickly compute a value, but only for 5-card hands.  The algorithm is extended to 6- and 7-card hands by doing evaluations of each 5-card combination.  Even doing 21 times as many valuations, the Cactus-Kev evaluator is considerably faster than the Hurley algorithm for 7-card hands.
+**CactusKevBinarySearchEvaluator** - The original Cactus-Kev evaluator, which exploits four smallish (about 10k FixedInt) lookup tables to quickly compute a value, but only for 5-card hands.  The algorithm is extended to 6- and 7-card hands by doing evaluations of each 5-card combination.  Even doing 21 times as many valuations, the Cactus-Kev evaluator is considerably faster than the Hurley algorithm for 7-card hands.
 
-CactusKevEvaluator - The original Cactus-Kev evaluator, replacing the binary search lookup in the third table with a perfect hash.
+**CactusKevEvaluator** - The original Cactus-Kev evaluator, replacing the binary search lookup in the third table with a perfect hash.
 
-CactusKevRubyEvaluator - A ruby-based variation on the CactusKev solution, using a single table and ruby hashes.  This turned out to run slightly faster than the CK evaluator.  It, too, is limited to 5-card hands, using an unrolled version of the combination solution for original CK.
+**CactusKevRubyEvaluator** - A ruby-based variation on the CactusKev solution, using a single table and ruby hashes.  This turned out to run slightly faster than the CK evaluator.  It, too, is limited to 5-card hands, using an unrolled version of the combination solution for original CK.
 
-CactusKev2p2Evaluator - Carrying lookup tables to the limit, this evaluator is based on the two-plus-two valuation optimization thread, using a monstrously large lookup table that represents a state machine for 7-card hands.  Unlike the previous tables, it does not require any special processing beyond serially looking up (a single table index for each card) the cards in the hand to produce a hand valuation score.  This runs significantly faster (40x) than the Hurley evaluator:
+**CactusKev2p2Evaluator** - Carrying lookup tables to the limit, this evaluator is based on the two-plus-two valuation optimization thread, using a monstrously large lookup table that represents a state machine for 7-card hands.  Unlike the previous tables, it does not require any special processing beyond serially looking up (a single table index for each card) the cards in the hand to produce a hand valuation score.  This runs significantly faster (40x) than the Hurley evaluator:
 
 		7-card shootout (100,000 random hands)
 		                                              user     system      total        real
