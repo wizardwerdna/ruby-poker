@@ -30,7 +30,7 @@ CactusKevEvaluator               12.280000   0.100000  12.380000 ( 12.382839)   
 CactusKevRubyEvaluator           14.290000   0.120000  14.410000 ( 14.404539)   0.14404539
 CactusKevBinarySearchEvaluator   26.210000   0.090000  26.300000 ( 26.298261)   0.26298261
 HurleyEvaluator                  88.100000   1.260000  89.360000 ( 89.362515)   0.89362515
-``
+```
 
 ## Install
 
