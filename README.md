@@ -1,10 +1,10 @@
 # Poker library in Ruby
-===
 
-Author:: {Andrew C. Greenberg}[http://lawhacker.com]
-Email:: andrewcgreenberg [at] gmail.com
-GitHub:: http://github.com/wizarderdna/ruby-poker
-Forked from {Rob Olson's}[http://thinkingdigitally.com] excellent first cut at a ruby-native evaluator.
+Author: [Andrew C. Greenberg](http://lawhacker.com)  
+Email: andrewcgreenberg [at] gmail.com  
+GitHub: [https://github.com/wizarderdna/ruby-poker](https://github.com/wizarderdna/ruby-poker)  
+
+Forked from [Rob Olson's](http://thinkingdigitally.com) excellent first cut at a ruby-native evaluator.
 
 ## Description
 
@@ -55,7 +55,7 @@ By default ruby-poker will not raise an exception if you add the same card to a 
 
     PokerHand.allow_duplicates = false
     
-Place that line near the beginning of your program. The change is program wide so once allow_duplicates is set to false, _all_ poker hands will raise an exception if a duplicate card is added to the hand.
+Place that line near the beginning of your program. The change is program wide so once `allow_duplicates` is set to `false`, _all_ poker hands will raise an exception if a duplicate card is added to the hand.
 
 ## Compatibility
 
@@ -63,8 +63,8 @@ Ruby-Poker is compatible with Ruby 1.8.6 and Ruby 1.9.1.
 
 ## History
 
-In the 0.2.0 release Patrick Hurley's Texas Holdem code from http://www.rubyquiz.com/quiz24.html was merged into ruby-poker.
+In the 0.2.0 release Patrick Hurley's Texas Holdem code from [http://www.rubyquiz.com/quiz24.html](http://www.rubyquiz.com/quiz24.html) was merged into ruby-poker.
 
 ## License
 
-This is free software; you can redistribute it and/or modify it under the terms of the BSD license. See LICENSE for more details.
+This is free software; you can redistribute it and/or modify it under the terms of the BSD license. See [LICENSE](LICENSE) for more details.
