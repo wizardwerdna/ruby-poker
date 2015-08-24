@@ -43,12 +43,12 @@ require 'ruby-poker'
 hand1 = PokerHand.new("8H 9C TC JD QH") # uses the hurley evaluator by default
 require 'ruby-poker/cactus_kev_2p2_evaluator' # loads the monstrously large table for 2p2
 hand2 = PokerHand.new(["3D", "3C", "3S", "KD", "AH"], CactusKev2p2Evaluator) # uses the super-fast two plus two evaluator 
-puts hand1                => 8h 9c Tc Jd Qh (Straight)
-puts hand1.just_cards     => 8h 9c Tc Jd Qh
-puts hand1.rank           => Straight
-puts hand2                => 3d 3c 3s Kd Ah (Three of a kind)
-puts hand2.rank           => Three of a kind
-puts hand1 > hand2        => true
+puts hand1                # => 8h 9c Tc Jd Qh (Straight)
+puts hand1.just_cards     # => 8h 9c Tc Jd Qh
+puts hand1.rank           # => Straight
+puts hand2                # => 3d 3c 3s Kd Ah (Three of a kind)
+puts hand2.rank           # => Three of a kind
+puts hand1 > hand2        # => true
 ```
 
 ## Duplicates
