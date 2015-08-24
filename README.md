@@ -23,12 +23,12 @@ Plural evaluators may be installed and tested for comparative accuracy and effic
 **CactusKev2p2Evaluator** - Carrying lookup tables to the limit, this evaluator is based on the two-plus-two valuation optimization thread, using a monstrously large lookup table that represents a state machine for 7-card hands.  Unlike the previous tables, it does not require any special processing beyond serially looking up (a single table index for each card) the cards in the hand to produce a hand valuation score.  This runs significantly faster (40x) than the Hurley evaluator:
 
 		7-card shootout (100,000 random hands)
-		                                              user     system      total        real
-		CactusKev2p2Evaluator                     1.930000   0.080000   2.010000 (  2.006648)
-		CactusKevEvaluator                       12.280000   0.100000  12.380000 ( 12.382839)
-		CactusKevRubyEvaluator                   14.290000   0.120000  14.410000 ( 14.404539)
-		CactusKevBinarySearchEvaluator           26.210000   0.090000  26.300000 ( 26.298261)
-		HurleyEvaluator                          88.100000   1.260000  89.360000 ( 89.362515)
+		                                              user     system      total        real   ms per hand
+		CactusKev2p2Evaluator                     1.930000   0.080000   2.010000 (  2.006648)   0.02006648
+		CactusKevEvaluator                       12.280000   0.100000  12.380000 ( 12.382839)   0.12382839
+		CactusKevRubyEvaluator                   14.290000   0.120000  14.410000 ( 14.404539)   0.14404539
+		CactusKevBinarySearchEvaluator           26.210000   0.090000  26.300000 ( 26.298261)   0.26298261
+		HurleyEvaluator                          88.100000   1.260000  89.360000 ( 89.362515)   0.89362515
 
 ## Install
 
