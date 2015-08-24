@@ -1,12 +1,12 @@
-= Poker library in Ruby
+# Poker library in Ruby
 ===
 
 Author:: {Andrew C. Greenberg}[http://lawhacker.com]
-Email:: [andrewcgreenberg] [at] gmail.com
+Email:: andrewcgreenberg [at] gmail.com
 GitHub:: http://github.com/wizarderdna/ruby-poker
 Forked from {Rob Olson's}[http://thinkingdigitally.com] excellent first cut at a ruby-native evaluator.
 
-== Description
+## Description
 
 Ruby-Poker handles the logic for getting the rank of a poker hand. It can also be used to compare two or more hands to determine which hand has the highest poker value.
 
@@ -30,17 +30,17 @@ CactusKev2p2Evaluator - Carrying lookup tables to the limit, this evaluator is b
 		CactusKevBinarySearchEvaluator           26.210000   0.090000  26.300000 ( 26.298261)
 		HurleyEvaluator                          88.100000   1.260000  89.360000 ( 89.362515)
 
-== Install
+## Install
 
-    sudo gem install ruby-poker
+    gem install ruby-poker
 
-== Example
+## Example
 
     require 'rubygems'
     require 'ruby-poker'
     
     hand1 = PokerHand.new("8H 9C TC JD QH") # uses the hurley evaluator by default
-	require 'ruby-poker/cactus_kev_2p2_evaluator' # loads the monstrously large table for 2p2
+	  require 'ruby-poker/cactus_kev_2p2_evaluator' # loads the monstrously large table for 2p2
     hand2 = PokerHand.new(["3D", "3C", "3S", "KD", "AH"], CactusKev2p2Evaluator) # uses the super-fast two plus two evaluator 
     puts hand1                => 8h 9c Tc Jd Qh (Straight)
     puts hand1.just_cards     => 8h 9c Tc Jd Qh
@@ -49,7 +49,7 @@ CactusKev2p2Evaluator - Carrying lookup tables to the limit, this evaluator is b
     puts hand2.rank           => Three of a kind
     puts hand1 > hand2        => true
 
-== Duplicates
+## Duplicates
 
 By default ruby-poker will not raise an exception if you add the same card to a hand twice. You can tell ruby-poker to not allow duplicates by doing the following
 
@@ -57,14 +57,14 @@ By default ruby-poker will not raise an exception if you add the same card to a 
     
 Place that line near the beginning of your program. The change is program wide so once allow_duplicates is set to false, _all_ poker hands will raise an exception if a duplicate card is added to the hand.
 
-== Compatibility
+## Compatibility
 
 Ruby-Poker is compatible with Ruby 1.8.6 and Ruby 1.9.1.
 
-== History
+## History
 
 In the 0.2.0 release Patrick Hurley's Texas Holdem code from http://www.rubyquiz.com/quiz24.html was merged into ruby-poker.
 
-== License
+## License
 
 This is free software; you can redistribute it and/or modify it under the terms of the BSD license. See LICENSE for more details.
